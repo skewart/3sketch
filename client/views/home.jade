@@ -6,9 +6,9 @@ mixin paramform(param)
     label(for="p_min_#{ param.name }") Min:
     input.form-control.param_field.p_min( id="p_min_#{ param.name }" type="text" value="#{ param.min }" style="width: 50px;" )
     label(for="p_max_#{ param.name }") Max:
-    input.form-control.param_field.p_min( id="p_min_#{ param.name }" type="text" value="#{ param.max }" style="width: 50px;" )
+    input.form-control.param_field.p_max( id="p_max_#{ param.name }" type="text" value="#{ param.max }" style="width: 50px;" )
     label(for="p_step_#{ param.name }") Increment:
-    input.form-control.param_field.p_min( id="p_min_#{ param.name }" type="text" value="#{ param.step }" style="width: 50px;" )
+    input.form-control.param_field.p_inc( id="p_inc_#{ param.name }" type="text" value="#{ param.step }" style="width: 50px;" )
 
 // Document
 doctype html
@@ -26,14 +26,14 @@ html(lang='en')
       .row
         .col-md-4.sidebar
           .p Write a function that returns a single THREE.Geomtry object
-          form( role="form" )
+          form#param_container( role="form" )
             .form-group
               button.btn.btn-default#add_param
                 span.glyphicon.glyphicon-plus
                 span Add a parameter
             each param in params
               +paramform( param )
-          .row                
+          .row      
             .col-sm-12( style="margin-top:5px; margin-bottom:5px;" )
               #fnc1 function( 
                 span#args
