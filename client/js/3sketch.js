@@ -1,8 +1,9 @@
 
-var P = {
+var CM,
+    P = {
         params: [
-            { name: "width", min: 1, max: 20, inc: 1, value: 10 },
-            { name: "height", min: 1, max: 20, inc: 1, value: 10 }
+            { name: "width", min: 1, max: 20, step: 1, value: 10 },
+            { name: "height", min: 1, max: 20, step: 1, value: 10 }
         ]
     }
 
@@ -48,7 +49,7 @@ function addNewParam() {
 			min: 1,
 			max: 10,
 			value: 5,
-			inc: 1
+			step: 1
 		};
 	P.params.push( p );
 	
@@ -63,19 +64,31 @@ function addNewParam() {
 }
 
 
+// Intercepts the code form submit and adds some data to it 
+function submitRunForm() {
+    $('#params_run_input').val( JSON.stringify( P.params ) );
+    $('#code_run_input').val( btoa( CM.getValue() ) );
+}
+
+
 window.onload = function() {
 	// Set up Code Mirror
 	CM = CodeMirror( document.getElementById('codeGoesHere'), {
-		value: "return new THREE.CubeGeometry( width, depth, height )\n",
+		value: "return new THREE.BoxGeometry( width, 10, height )",
 		lineNumbers: true,
 		autofocus: true
 	});
 	// Event handlers
 	$('#add_param').on('click', function(e) {
-	    e.preventDefault();
-	    addNewParam();
+        e.preventDefault();
+        addNewParam();
 	});
 	$( '#param_container' ).on('blur', 'input', function(e) {
-	    updateParamData();
+        updateParamData();
 	});
+	$('#code_form').on('submit', function(e) {
+        submitRunForm();
+        //e.preventDefault();
+	});
+	refreshFunctionText();
 }

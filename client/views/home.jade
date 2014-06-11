@@ -38,9 +38,12 @@ html(lang='en')
               #fnc1 function( 
                 span#args
                 ) {
-              #codeGoesHere( style="margin-top: 5px; margin-bottom:5px;" )
-              #fnc2 }
-              button.btn.btn-default#run_button( style="margin-top:10px;" ) Run
+              form#code_form( method="post" target="scene" action="https://3sketch_display-c9-skewart.c9.io/_display" )
+                #codeGoesHere( style="margin-top: 5px; margin-bottom:5px;" )
+                #fnc2 }
+                input#params_run_input( type="hidden" name="geo_params" )
+                input#code_run_input( type="hidden" name="js_code" )
+                button.btn.btn-default#run_button( style="margin-top:10px;" ) Run
         .col-md-8(style="height:100%")
           iframe(name="scene" style="width:900px; height:600px;")
 
