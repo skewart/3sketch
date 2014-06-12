@@ -1,55 +1,91 @@
 // Mixins
 mixin paramform(param)
-  .form-inline.param
-    label(for="p_name_#{ param.name }") Name:
-    input.form-control.param_field.p_name( id="p_name_#{ param.name }" type="text" value="#{ param.name }" style="width:100px;" )
-    label(for="p_min_#{ param.name }") Min:
-    input.form-control.param_field.p_min( id="p_min_#{ param.name }" type="text" value="#{ param.min }" style="width: 50px;" )
-    label(for="p_max_#{ param.name }") Max:
-    input.form-control.param_field.p_max( id="p_max_#{ param.name }" type="text" value="#{ param.max }" style="width: 50px;" )
-    label(for="p_step_#{ param.name }") Increment:
-    input.form-control.param_field.p_inc( id="p_inc_#{ param.name }" type="text" value="#{ param.step }" style="width: 50px;" )
-
+  .form-inline.param(style="margin-bottom:5px;")
+    label(for="p_name_#{ param.name }") Name:&nbsp
+    input.input-sm.form-control.param_field.p_name( id="p_name_#{ param.name }" type="text" value="#{ param.name }" style="width:100px;" )
+    label.p_label(for="p_min_#{ param.name }") Min:&nbsp 
+    input.input-sm.form-control.param_field.p_min( id="p_min_#{ param.name }" type="text" value="#{ param.min }" style="width: 50px;" )
+    label.p_label(for="p_max_#{ param.name }") Max:&nbsp
+    input.input-sm.form-control.param_field.p_max( id="p_max_#{ param.name }" type="text" value="#{ param.max }" style="width: 50px;" )
+    label.p_label(for="p_step_#{ param.name }") Increment:&nbsp 
+    input.input-sm.form-control.param_field.p_step( id="p_inc_#{ param.name }" type="text" value="#{ param.step }" style="width: 50px;" )
+    &nbsp &nbsp
+    button.btn.btn-default.btn-xs.glyphicon.glyphicon-remove.p_del( id="p_del_${ param.name }" style="float:right; margin-top:6px; background-color:rgb(160,160,160)")
 // Document
 doctype html
-html(lang='en')
+html(lang="en" )
   head
     title 3Sketch
     link(rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css")
-    link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/codemirror.css")
-  body
-    .navbar.navbar-inverse.navbar-static-top(role="navigation")
-      .container-fluid
-        .navbar-header
-          span(style="font-size: 1.5em; color: rgb(90,90,90); display: block; margin-top: 5px;") 3Sketch
+    link(rel="stylesheet" href="/css/codemirror.css")
+    //link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/codemirror.css")
+    style.
+      .topbar {
+        /*background-color: rgb(223,227,245);*/
+        margin-bottom: 5px;
+        font-size: 1.3em;
+        padding: 5px 0px 5px 0px;
+      }
+      .option:hover {
+        cursor: pointer;
+      }
+      .title {
+        float: left;
+      }
+      .about {
+        float: right;
+      }
+      .sb {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        bottom: 0px;
+        background-color: rgb(210,210,210);
+      }
+      .display_area {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
+      }
+      .p_label {
+        margin-left:7px;
+      }
+      
+  body( style="background-color: rgb(0,0,0)" )
     .container-fluid
-      .row
-        .col-md-4.sidebar
-          .p Write a function that returns a single THREE.Geomtry object
+      .row( style="position:absolute; height: 100%; width: 100%;" )
+        .col-md-5.sidebar.sb
+          .row.topbar.bg-primary
+            .col-md-12
+              .title 3sketch
+              .about.option about
+              .about &nbsp | &nbsp
+              .about.option examples
           form#param_container( role="form" )
             .form-group
-              button.btn.btn-default#add_param
-                span.glyphicon.glyphicon-plus
-                span Add a parameter
             each param in params
               +paramform( param )
           .row      
             .col-sm-12( style="margin-top:5px; margin-bottom:5px;" )
+              button.btn.btn-info.btn-xs#add_param
+                span.glyphicon.glyphicon-plus
+                span &nbsp Param
               #fnc1 function( 
                 span#args
                 ) {
               form#code_form( method="post" target="scene" action="https://3sketch_display-c9-skewart.c9.io/_display" )
-                #codeGoesHere( style="margin-top: 5px; margin-bottom:5px;" )
+                #codeGoesHere( style="margin-top: 5px; margin-bottom:5px; display=none;" )
                 #fnc2 }
                 input#params_run_input( type="hidden" name="geo_params" )
                 input#code_run_input( type="hidden" name="js_code" )
-                button.btn.btn-default#run_button( style="margin-top:10px;" ) Run
-        .col-md-8(style="height:100%")
-          iframe(name="scene" style="width:900px; height:600px;")
+                button.btn.btn-success#run_button( style="margin-top:10px;" ) Run
+        .col-md-7.display_area
+          iframe(name="scene" style="width:100%; height:100%; border:none;")
 
     script( src="/js/jquery.min.js" )
     script( src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/codemirror.min.js" )
+    script( src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/mode/javascript/javascript.js" )
     script( src="/js/3sketch.js" )
 
-//form(method="post" target="scene" action="https://3sketch_display-c9-skewart.c9.io/_display") 
     

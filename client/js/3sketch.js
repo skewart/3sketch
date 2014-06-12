@@ -64,6 +64,20 @@ function addNewParam() {
 }
 
 
+// Deletes a parameter from the params list
+function deleteParam( paramRow ) {
+    var pName = $('.p_name', paramRow ).val();
+    for ( var i = 0; i < P.params.length; i++ ) {
+        if ( P.params[i].name === pName ) {
+            P.params.splice( i, 1 );
+        }
+    }
+    $(paramRow).remove();
+    refreshFunctionText();
+    refreshParamsInputs();
+}
+
+
 // Intercepts the code form submit and adds some data to it 
 function submitRunForm() {
     $('#params_run_input').val( JSON.stringify( P.params ) );
@@ -74,9 +88,10 @@ function submitRunForm() {
 window.onload = function() {
 	// Set up Code Mirror
 	CM = CodeMirror( document.getElementById('codeGoesHere'), {
-		value: "return new THREE.BoxGeometry( width, 10, height )",
+		value: "// Return a single THREE.Geomtry object\n\nreturn new THREE.BoxGeometry( width, 10, height )",
 		lineNumbers: true,
-		autofocus: true
+		autofocus: true,
+		mode: "javascript"
 	});
 	// Event handlers
 	$('#add_param').on('click', function(e) {
@@ -90,5 +105,9 @@ window.onload = function() {
         submitRunForm();
         //e.preventDefault();
 	});
+	$( '#param_container' ).on('click', 'button', function(e) {
+        deleteParam(e.target.parentNode );
+        e.preventDefault();
+	})
 	refreshFunctionText();
 }
