@@ -23,7 +23,6 @@ html(lang="en" )
       .topbar {
         /*background-color: rgb(223,227,245);*/
         margin-bottom: 5px;
-        font-size: 1.3em;
         padding: 5px 0px 5px 0px;
       }
       .option:hover {
@@ -31,9 +30,12 @@ html(lang="en" )
       }
       .title {
         float: left;
+        font-size: 1.4em;
       }
       .about {
         float: right;
+        font-size: 1.1em;
+        padding-top: 3px;
       }
       .sb {
         position: absolute;
@@ -51,7 +53,10 @@ html(lang="en" )
       .p_label {
         margin-left:7px;
       }
-      
+      .func {
+        margin: 7px 0px 7px 0px;
+        color: black;
+      }
   body( style="background-color: rgb(0,0,0)" )
     .container-fluid
       .row( style="position:absolute; height: 100%; width: 100%;" )
@@ -68,20 +73,24 @@ html(lang="en" )
               +paramform( param )
           .row      
             .col-sm-12( style="margin-top:5px; margin-bottom:5px;" )
-              button.btn.btn-info.btn-xs#add_param
+              button.btn.btn-info.btn-xs#add_param( style="margin-bottom:5px;" )
                 span.glyphicon.glyphicon-plus
                 span &nbsp Param
-              #fnc1 function( 
-                span#args
+              .func#fnc1 
+                span( style="color:#708; font-style:italic;" ) function
+                span ( 
+                span#args( style="color:#00f;" )
                 ) {
               form#code_form( method="post" target="scene" action="https://3sketch_display-c9-skewart.c9.io/_display" )
                 #codeGoesHere( style="margin-top: 5px; margin-bottom:5px; display=none;" )
-                #fnc2 }
+                .func#fnc2 }
                 input#params_run_input( type="hidden" name="geo_params" )
                 input#code_run_input( type="hidden" name="js_code" )
-                button.btn.btn-success#run_button( style="margin-top:10px;" ) Run
+                button.btn.btn-success#run_button( style="margin:10px 8px 0px 0px;" ) Run
+                button.btn.btn-default#save_button( style="margin:10px 8px 0px 0px;") Save
         .col-md-7.display_area
           iframe(name="scene" style="width:100%; height:100%; border:none;")
+          #functext( style="display:none;" ) !{ functext }
 
     script( src="/js/jquery.min.js" )
     script( src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/codemirror.min.js" )

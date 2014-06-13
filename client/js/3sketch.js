@@ -88,7 +88,7 @@ function submitRunForm() {
 window.onload = function() {
 	// Set up Code Mirror
 	CM = CodeMirror( document.getElementById('codeGoesHere'), {
-		value: "// Return a single THREE.Geomtry object\n\nreturn new THREE.BoxGeometry( width, 10, height )",
+		value: $('#functext').text(),
 		lineNumbers: true,
 		autofocus: true,
 		mode: "javascript"
