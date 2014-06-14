@@ -1,12 +1,6 @@
 
 var CM;
-// var CM,
-//     P = {
-//         params: [
-//             { name: "width", min: 1, max: 20, step: 1, value: 10 },
-//             { name: "height", min: 1, max: 20, step: 1, value: 10 }
-//         ]
-//     }
+
 
 // Updates the params inputs UI to be in sync with the params list (typically P.params)
 function refreshParamsInputs( paramsList ) {
@@ -86,10 +80,34 @@ function submitRunForm() {
 }
 
 
+// Saves the current code and parameters, can be accessed by a unique URL
+function saveDefinition() {
+    var url = 'https://3sketch-c9-skewart.c9.io/new',
+        designData = {
+            geo_params: P.params,
+            js_code: CM.getValue()
+        };
+    $.ajax( url, {
+        type: 'POST',
+        data: designData,
+        dataType: 'json',
+        success: function( data ) {
+            var newUrl = window.location.origin + "/" + data.sketchId;
+            $( '#save_url' ).attr('href', newUrl ).text( newUrl );
+            $( '#saveModal' ).modal('show');
+            window.history.pushState( designData, "", newUrl );
+        },
+        error: function( xhr, status, err ) {
+            console.log( err );
+        }
+    });
+}
+
+
 window.onload = function() {
 	// Set up Code Mirror
 	CM = CodeMirror( document.getElementById('codeGoesHere'), {
-		value: $('#functext').text(),
+		value: atob( $('#functext').text() ),
 		lineNumbers: true,
 		autofocus: true,
 		mode: "javascript"
@@ -110,7 +128,18 @@ window.onload = function() {
         deleteParam(e.target.parentNode );
         e.preventDefault();
 	})
+	$( '#save_button' ).on( 'click', function(e) {
+        saveDefinition();
+        e.preventDefault();
+	});
+	
 	refreshFunctionText();
+	
 	// Submit the form to create an initial scene for people to see
 	$("#code_form").submit();
+
+	window.onpopstate = function() {
+        // Might cause page to double-load in some browsers
+        window.location.href = document.location;
+    }
 }

@@ -31,6 +31,13 @@ html(lang="en" )
       .title {
         float: left;
         font-size: 1.4em;
+        color: white;
+        text-decoration: none;
+      }
+      .title:hover {
+        cursor: pointer;
+        text-decoration: none;
+        color: white;
       }
       .about {
         float: right;
@@ -57,13 +64,13 @@ html(lang="en" )
         margin: 7px 0px 7px 0px;
         color: black;
       }
-  body( style="background-color: rgb(0,0,0)" )
+  body( style="background-color: rgb(0,0,0); overflow:hidden;" )
     .container-fluid
       .row( style="position:absolute; height: 100%; width: 100%;" )
         .col-md-5.sidebar.sb
           .row.topbar.bg-primary
             .col-md-12
-              .title 3sketch
+              a.title( href="https://3sketch-c9-skewart.c9.io" ) 3sketch
               .about.option about
               .about &nbsp | &nbsp
               .about.option examples
@@ -87,16 +94,28 @@ html(lang="en" )
                 input#params_run_input( type="hidden" name="geo_params" )
                 input#code_run_input( type="hidden" name="js_code" )
                 button.btn.btn-success#run_button( style="margin:10px 8px 0px 0px;" ) Run
-                button.btn.btn-default#save_button( style="margin:10px 8px 0px 0px;") Save
+                button.btn.btn-default#save_button( style="margin:10px 8px 0px 0px;" ) Save
         .col-md-7.display_area
           iframe(name="scene" style="width:100%; height:100%; border:none;")
-          #functext( style="display:none;" ) !{ functext }
+          #functext( style="display:none;" ) #{ functext }
+    
+    // Save modal window
+    .modal.fade#saveModal( tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true" )
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close( type="button" data-dismiss="modal" aria-hidden="true" )&times;
+            h4.modal-title( id="saveModalLabel" ) Definition saved!
+          .modal-body You can access your sketch at this URL:
+            p 
+            a#save_url( href="https://https://3sketch-c9-skewart.c9.io" ) https://3sketch-c9-skewart.c9.io
     
     script.
       var P = {
         params: !{ JSON.stringify( params ) }
       }
     script( src="/js/jquery.min.js" )
+    script( src="/js/bootstrap.min.js" )
     script( src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/codemirror.min.js" )
     script( src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/mode/javascript/javascript.js" )
     script( src="/js/3sketch.js" )

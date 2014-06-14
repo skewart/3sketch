@@ -15,6 +15,7 @@ var app = express();
 app.set('views', __dirname + '/client/views');
 app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/client'));     // serve static files from the /client directory
+app.use(express.bodyParser());
 
 
 function randomChrs(howMany, chars) {
@@ -38,28 +39,32 @@ var uri = "mongodb://" + DB_USER + ":" + DB_PWORD + "@ds029658.mongolab.com:2965
 // The main 'home' route
 app.get('/', function( req, res ) {
     res.render('home', { params: [
-        { name: "width", min: 1, max: 20, step: 1, value: 10 },
-        { name: "height", min: 1, max: 20, step: 1, value: 10 },
-    ], functext: "// Return a single THREE.Geomtry object\n\nreturn new THREE.BoxGeometry( width, 10, height )"})
+        { name: "width", min: 30, max: 80, step: 1, value: 50 },
+        { name: "height", min: 30, max: 80, step: 1, value: 50 },
+    ], functext: new Buffer( "// Return a single THREE.Geomtry object\n\nreturn new THREE.BoxGeometry( width, height, 10 )" ).toString( 'base64' ) })
 });
 
 // The route for loading a specific saved sketch
 app.get('/:sketchId', function( req, res ) {
-    if (( req.params.sketchId === 'examples' ) ||  
-        ( req.params.sketchId === 'about' )
-        ) {
-            res.send("Implement me!");
-            return;
-    }
+    if ( req.params.sketchId[0] != "s"  ) {
+        res.writeHead( 303, {
+            "location": "https://3sketch-c9-skewart.c9.io"  // Update this with actual URL
+        });
+        res.end();
+        return;
+    } 
     db.sketches_1.find({"sketch_id": req.params.sketchId}, function(err, records) {
         if (err) {
             console.log("There was an error with the database query");
             res.end();
         } else {
             if ( records.length < 1 ) {
-                res.send('No records returned.  Implement a redirect to the home page here.')
+                // TODO Return a 404 with a nice message
+                res.writeHead( 303, {
+                    "location": "https://3sketch-c9-skewart.c9.io"  // Update this with actual URL
+                })
             }
-            var jsCode = records[0].functext; //new Buffer( record[0].functext_b64, 'base64' ).toString().replace(/\n/g, "\\n");
+            var jsCode = new Buffer( records[0].functext).toString( 'base64' );
             res.render('home', { params: records[0].params, functext: jsCode });
         }
     })
@@ -73,7 +78,7 @@ app.post('/new', function( req, res ) {
     var newSketchId = "s" + randomChrs(8); // TODO Actually check for collisions
     db.sketches_1.insert({
         sketch_id: newSketchId,
-        parms: params,
+        params: params,
         functext: jsCode
     }, function(err,doc) {
         if (err) {
