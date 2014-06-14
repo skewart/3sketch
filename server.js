@@ -50,14 +50,17 @@ app.get('/:sketchId', function( req, res ) {
         ) {
             res.send("Implement me!");
             return;
-        }
+    }
     db.sketches_1.find({"sketch_id": req.params.sketchId}, function(err, records) {
         if (err) {
             console.log("There was an error with the database query");
             res.end();
         } else {
-            var jsCode = record[0].functext; //new Buffer( record[0].functext_b64, 'base64' ).toString().replace(/\n/g, "\\n");
-            res.render('home', { params: record[0].params, functext: jsCode });
+            if ( records.length < 1 ) {
+                res.send('No records returned.  Implement a redirect to the home page here.')
+            }
+            var jsCode = records[0].functext; //new Buffer( record[0].functext_b64, 'base64' ).toString().replace(/\n/g, "\\n");
+            res.render('home', { params: records[0].params, functext: jsCode });
         }
     })
 })

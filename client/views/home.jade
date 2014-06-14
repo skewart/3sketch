@@ -91,7 +91,11 @@ html(lang="en" )
         .col-md-7.display_area
           iframe(name="scene" style="width:100%; height:100%; border:none;")
           #functext( style="display:none;" ) !{ functext }
-
+    
+    script.
+      var P = {
+        params: !{ JSON.stringify( params ) }
+      }
     script( src="/js/jquery.min.js" )
     script( src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/codemirror.min.js" )
     script( src="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/mode/javascript/javascript.js" )

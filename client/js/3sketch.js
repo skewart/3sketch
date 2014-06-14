@@ -1,11 +1,12 @@
 
-var CM,
-    P = {
-        params: [
-            { name: "width", min: 1, max: 20, step: 1, value: 10 },
-            { name: "height", min: 1, max: 20, step: 1, value: 10 }
-        ]
-    }
+var CM;
+// var CM,
+//     P = {
+//         params: [
+//             { name: "width", min: 1, max: 20, step: 1, value: 10 },
+//             { name: "height", min: 1, max: 20, step: 1, value: 10 }
+//         ]
+//     }
 
 // Updates the params inputs UI to be in sync with the params list (typically P.params)
 function refreshParamsInputs( paramsList ) {
@@ -110,4 +111,6 @@ window.onload = function() {
         e.preventDefault();
 	})
 	refreshFunctionText();
+	// Submit the form to create an initial scene for people to see
+	$("#code_form").submit();
 }
