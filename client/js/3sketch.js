@@ -104,6 +104,12 @@ function saveDefinition() {
 }
 
 
+// As its name suggests, it hides the code panel
+function hideCodePanel() {
+    
+}
+
+
 window.onload = function() {
 	// Set up Code Mirror
 	CM = CodeMirror( document.getElementById('codeGoesHere'), {
