@@ -106,7 +106,7 @@ function saveDefinition() {
 
 // As its name suggests, it hides the code panel
 function hideCodePanel() {
-    
+    $('#code_panel').hide();
 }
 
 
