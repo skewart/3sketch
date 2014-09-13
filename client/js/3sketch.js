@@ -104,10 +104,28 @@ function saveDefinition() {
 }
 
 
-// As its name suggests, it hides the code panel
-function hideCodePanel() {
-    $('#code_panel').hide();
+function selectOption( optionId ) {
+
 }
+
+
+// As its name suggests, it hides the code panel
+// Commented out until this is properly implemented.  Need to resolve the animated
+// transition with how Bootsrap sets up the DOM and sizes things.
+// function toggleCodePanel() {
+//     var $cp = $('#code_panel'),
+//         $da = $('#display_area'),
+//         $mr = $('#main_row');
+//     if ( $mr.attr('data-hidden') === 'true' ) {
+//         $mr.css({ left: 'auto' });
+//         $mr.attr('data-hidden', false);
+//         $da.addClass('col-md-7');
+//     } else {
+//         $mr.css({left: -( $cp.width() ).toString() + 'px' });
+//         $mr.attr('data-hidden', true);
+//         $da.removeClass('col-md-7').css({width: '100%'});
+//     }
+// }
 
 
 window.onload = function() {
@@ -137,6 +155,9 @@ window.onload = function() {
 	$( '#save_button' ).on( 'click', function(e) {
         saveDefinition();
         e.preventDefault();
+	});
+	$( '#hide_code_panel' ).on('click', function(e) {
+	   toggleCodePanel(); 
 	});
 	
 	refreshFunctionText();
