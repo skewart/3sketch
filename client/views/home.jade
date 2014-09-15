@@ -8,7 +8,7 @@ mixin paramform(param)
     label.p_label(for="p_max_#{ param.name }") Max:&nbsp
     input.input-sm.form-control.param_field.p_max( id="p_max_#{ param.name }" type="text" value="#{ param.max }" style="width: 50px;" )
     label.p_label(for="p_step_#{ param.name }") Increment:&nbsp 
-    input.input-sm.form-control.param_field.p_step( id="p_inc_#{ param.name }" type="text" value="#{ param.step }" style="width: 50px;" )
+    input.input-sm.form-control.param_field.p_step( id="p_step_#{ param.name }" type="text" value="#{ param.step }" style="width: 50px;" )
     &nbsp &nbsp
     button.btn.btn-default.btn-xs.glyphicon.glyphicon-remove.p_del( id="p_del_${ param.name }" style="float:right; margin-top:6px; background-color:rgb(160,160,160)")
 // Document
@@ -17,9 +17,7 @@ html(lang="en" )
   head
     title 3Sketch
     link( rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" )
-    //link(rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css")
     link(rel="stylesheet" href="/css/codemirror.css")
-    //link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.2.0/codemirror.css")
     style.
       .topbar {
         /*background-color: rgb(223,227,245);*/
@@ -94,7 +92,7 @@ html(lang="en" )
         .col-md-5.sidebar.sb#code_panel
           .row.topbar.bg-primary
             .col-md-12
-              a.title( href="https://3sketch-c9-skewart.c9.io" ) 3sketch
+              a.title( href="#{ main_url }" ) 3sketch
               .about.option#opt_about about
               .about &nbsp | &nbsp
               .about.option#opt_examples examples
@@ -114,7 +112,7 @@ html(lang="en" )
                 span ( 
                 span#args( style="color:#00f;" )
                 ) {
-              form#code_form( method="post" target="scene" action="https://3sketch_display-c9-skewart.c9.io/_display" )
+              form#code_form( method="post" target="scene" action="#{ display_url }" )
                 #codeGoesHere( style="margin-top: 5px; margin-bottom:5px; display=none;" )
                 .func#fnc2 }
                 input#params_run_input( type="hidden" name="geo_params" )
@@ -138,10 +136,11 @@ html(lang="en" )
             h4.modal-title( id="saveModalLabel" ) Definition saved!
           .modal-body You can access your sketch at this URL:
             p 
-            a#save_url( href="https://https://3sketch-c9-skewart.c9.io" ) https://3sketch-c9-skewart.c9.io
+            a#save_url( href="#{ main_url }" )= main_url
     
     script.
       var P = {
+        url: "!{ main_url }",
         params: !{ JSON.stringify( params ) }
       }
     script( src="/js/jquery.min.js" )

@@ -27,11 +27,13 @@ function refreshFunctionText( paramsList ) {
 // Updates the params list with new data from the form inputs
 function updateParamData( paramsList ) {
     paramsList = paramsList || P.params;
-    var type;
+    var type, value;
     $('.param').each( function( idx, row ) {
         $('.param_field', row ).each( function( jdx, inpt ) {
             type = $(inpt).attr('id').split('_')[1];
-            paramsList[ idx ][ type ] = $(inpt).val();
+            value = $(inpt).val();
+            //if ( type !== "name" ) value = parseFloat( value );
+            paramsList[ idx ][ type ] = value;
         });
     });
     refreshFunctionText();
@@ -82,7 +84,7 @@ function submitRunForm() {
 
 // Saves the current code and parameters, can be accessed by a unique URL
 function saveDefinition() {
-    var url = 'https://3sketch-c9-skewart.c9.io/new',
+    var url = window.location.origin + '/new', //'https://3sketch-c9-skewart.c9.io/new',
         designData = {
             geo_params: P.params,
             js_code: CM.getValue()

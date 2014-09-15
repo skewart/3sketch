@@ -8,7 +8,9 @@ var http = require('http'),
 
 
 var DB_USER = process.env.DB_USER || process.argv[2],
-    DB_PWORD = process.env.DB_PWORD || process.argv[3];
+    DB_PWORD = process.env.DB_PWORD || process.argv[3],
+    MAIN_ROOT = process.env.MAIN_ROOT || 'https://3sketch-c9-skewart.c9.io',
+    DISPLAY_ROOT = process.env.DISPLAY_ROOT || 'https://3sketch_display-c9-skewart.c9.io';
 
 
 var app = express();
@@ -38,7 +40,12 @@ var uri = "mongodb://" + DB_USER + ":" + DB_PWORD + "@ds029658.mongolab.com:2965
 
 // The main 'home' route
 app.get('/', function( req, res ) {
-    res.render('home', { params: [
+    console.log( MAIN_ROOT );
+    console.log( DISPLAY_ROOT );
+    res.render('home', {
+    main_url: MAIN_ROOT,
+    display_url: DISPLAY_ROOT + '/_display',
+    params: [
         { name: "width", min: 30, max: 80, step: 1, value: 50 },
         { name: "height", min: 30, max: 80, step: 1, value: 50 },
     ], functext: new Buffer( "// Return a single THREE.Geomtry object\n\nreturn new THREE.BoxGeometry( width, height, 10 )" ).toString( 'base64' ) })
@@ -48,7 +55,7 @@ app.get('/', function( req, res ) {
 app.get('/:sketchId', function( req, res ) {
     if ( req.params.sketchId[0] != "s"  ) {
         res.writeHead( 303, {
-            "location": "https://3sketch-c9-skewart.c9.io"  // Update this with actual URL
+            "location": MAIN_ROOT
         });
         res.end();
         return;
@@ -61,11 +68,11 @@ app.get('/:sketchId', function( req, res ) {
             if ( records.length < 1 ) {
                 // TODO Return a 404 with a nice message
                 res.writeHead( 303, {
-                    "location": "https://3sketch-c9-skewart.c9.io"  // Update this with actual URL
+                    "location": MAIN_ROOT
                 })
             }
             var jsCode = new Buffer( records[0].functext).toString( 'base64' );
-            res.render('home', { params: records[0].params, functext: jsCode });
+            res.render('home', { params: records[0].params, functext: jsCode, main_url: MAIN_ROOT, display_url: DISPLAY_ROOT + '/_display' });
         }
     })
 })
